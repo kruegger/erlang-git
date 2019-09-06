@@ -1,0 +1,12 @@
+[Unit]
+Description=Erlang Port Mapper Daemon
+
+[Service]
+EnvironmentFile=/etc/conf.d/epmd
+ExecStart=/opt/erlang/bin/epmd -daemon $EPMD_OPTS
+ExecStop=/opt/erlang/bin/epmd -kill
+Type=forking
+
+[Install]
+WantedBy=multi-user.target
+

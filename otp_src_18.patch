@@ -1,0 +1,31 @@
+--- otp_src_18.3/erts/configure.in	2016-03-14 13:11:15.000000000 -0700
++++ otp_src_18.3/erts/configure.in.new	2019-09-06 14:17:39.468478963 -0700
+@@ -4475,18 +4475,28 @@
+ 		SSL_LIBDIR="$with_ssl/lib64"
+ 	elif test -f "$with_ssl/lib/64/libcrypto.so"; then
+ 		SSL_LIBDIR="$with_ssl/lib/64"
++        elif test "x$with_ssl" = "x/usr/lib/openssl-1.0" -o "x$with_ssl" = "x/usr/lib/openssl-1.0/"; then
++                SSL_LIBDIR="$with_ssl"
+ 	else
+ 		SSL_LIBDIR="$with_ssl/lib"
+ 	fi
+     else	 
++        if test "x$with_ssl" = "x/usr/lib/openssl-1.0" -o "x$with_ssl" = "x/usr/lib/openssl-1.0/"; then
++                SSL_LIBDIR="$with_ssl"
++        else
+ 	SSL_LIBDIR="$with_ssl/lib"
+     fi
++    fi
+     if test '!' -f "${SSL_LIBDIR}/lib${SSL_CRYPTO_LIBNAME}.a"; then
+ 	SSL_DYNAMIC_ONLY=yes
+     elif test '!' -f ${SSL_LIBDIR}/lib${SSL_CRYPTO_LIBNAME}.so -a '!' -f "$SSL_LIBDIR/lib${SSL_CRYPTO_LIBNAME}.dylib"; then
+ 	SSL_STATIC_ONLY=yes
+     fi
++    if test "x$with_ssl_incl" = "x/usr/include/openssl-1.0" -o "x$with_ssl_incl" = "x/usr/include/openssl-1.0/"; then
++        SSL_INCLUDE="-I$with_ssl_incl"
++    else
+     SSL_INCLUDE="-I$with_ssl_incl/include"
++    fi
+     SSL_APP=ssl
+     CRYPTO_APP=crypto
+     SSH_APP=ssh
